@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7cfe0">
+<title>Prueba orientativa CI / IC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   FANCY THEME — style-v2.css
+   Y2K / vaporwave flat-vector OS skin (v2): same bright pastel
+   palette as v1 (lavender, hot pink, yellow, mint), thick black
+   outlines, no soft shadows — flat illustrated-sticker look.
+   v2 restructures the theme onto a single ordered CSS grid
+   (repeat(3, 1fr) + grid-auto-flow: dense, span-only placement,
+   no absolute positioning for layout) so it carries the FULL
+   "brand book" component set: topbar with nav links + search +
+   avatar, KPI strip, buttons, labeled input, custom dropdown,
+   checkboxes/radio/toggle/tabs, data table + badges + pagination,
+   data-bar meter table, standalone progress bar, two distinct
+   inline-SVG charts, a profile card, and a dedicated "window"
+   panel with title-bar controls.
+   This file is fully self-contained — index-v2.html links only
+   to this stylesheet, never to the original style.css.
+   ============================================================ */
+
+:root {
+  --fy-bg:      #f7cfe0;
+  --fy-bar:     #b7a3e6;
+  --fy-white:   #fffdf8;
+  --fy-yellow:  #f5e14a;
+  --fy-yellow2: #eccf2e;
+  --fy-mint:    #c3ea86;
+  --fy-mint2:   #a9d95f;
+  --fy-pink:    #f472a8;
+  --fy-pink2:   #ee5b98;
+  --fy-lav:     #b7a3e6;
+  --fy-border:  #1a1a1a;
+  --fy-text1:   #1a1a1a;
+  --fy-text2:   rgba(26, 26, 26, .6);
+  --fy-text3:   rgba(26, 26, 26, .38);
+  --fy-font:    'Fredoka', 'Quicksand', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.fy-shell {
+  min-height: 100vh;
+  background: var(--fy-bg);
+  font-family: var(--fy-font);
+  color: var(--fy-text1);
+  padding: 18px 24px 32px;
+}
+
+/* ---------- Top bar ---------- */
+.fy-topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  background: var(--fy-bar); border: 2.4px solid var(--fy-border); border-radius: 22px;
+  padding: 10px 18px; margin-bottom: 18px; box-shadow: 3px 3px 0 rgba(26,26,26,.15);
+}
+.fy-brand { font-weight: 700; font-size: 16px; color: #fff; flex-shrink: 0; }
+.fy-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.fy-nav a { font-size: 11.5px; font-weight: 700; color: #1a1a1a; padding: 6px 13px; border-radius: 14px; background: rgba(255,255,255,.35); border: 2px solid transparent; }
+.fy-nav a.active { background: var(--fy-yellow); border-color: var(--fy-border); }
+.fy-top-right { display: flex; align-items: center; gap: 12px; }
+.fy-search {
+  display: flex; align-items: center; gap: 8px; min-width: 190px;
+  background: var(--fy-white); border: 2.2px solid var(--fy-border); border-radius: 20px; padding: 7px 16px;
+}
+.fy-search input { border: none; outline: none; background: transparent; font-family: inherit; font-size: 12.5px; flex: 1; color: var(--fy-text1); }
+.fy-avatar {
+  width: 34px; height: 34px; border-radius: 50%; border: 2.2px solid var(--fy-border); background: var(--fy-yellow);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+/* ---------- KPI stat strip ---------- */
+.fy-stats-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+.fy-stat {
+  background: var(--fy-white); border: 2.2px solid var(--fy-border); border-radius: 16px;
+  padding: 12px 14px; box-shadow: 3px 3px 0 rgba(26,26,26,.15);
+}
+.fy-stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--fy-text2); letter-spacing: .3px; }
+.fy-stat-value { font-size: 23px; font-weight: 700; margin: 4px 0 2px; }
+.fy-stat-delta { font-size: 10.5px; font-weight: 700; color: var(--fy-text2); }
+
+/* ---------- Main grid ---------- */
+.fy-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense; align-items: start; gap: 18px; }
+.fy-card.span2 { grid-column: span 2; }
+.fy-window.span2 { grid-column: span 2; }
+
+/* Window quad: forces Control Panel/Schedule/Tracking/Jokes into a guaranteed 2x2 block
+   so they never render alone (1 card per row) at the end of the grid. */
+.fy-window-quad {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.fy-window-quad .fy-window { grid-column: span 1; }
+
+/* ---------- Window/card chrome ---------- */
+.fy-card {
+  background: var(--fy-white); border: 2.4px solid var(--fy-border); border-radius: 18px;
+  overflow: hidden; box-shadow: 3px 3px 0 rgba(26,26,26,.15);
+}
+.fy-card-title {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px; border-bottom: 2.4px solid var(--fy-border); font-weight: 700; font-size: 12.5px;
+}
+.fy-card-title.pink { background: var(--fy-pink); color: #fff; }
+.fy-card-title.yellow { background: var(--fy-yellow); }
+.fy-card-title.mint { background: var(--fy-mint); }
+.fy-card-title.lav { background: var(--fy-lav); color: #fff; }
+.fy-dots { display: flex; gap: 5px; }
+.fy-dots span { width: 9px; height: 9px; border-radius: 50%; border: 1.4px solid var(--fy-border); display: block; }
+.fy-dots span:nth-child(1) { background: var(--fy-pink); }
+.fy-dots span:nth-child(2) { background: var(--fy-yellow); }
+.fy-dots span:nth-child(3) { background: var(--fy-mint); }
+.fy-card-body { padding: 14px 16px 16px; }
+
+/* ---------- Tabs ---------- */
+.fy-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.fy-tab { border: 2px solid var(--fy-border); border-radius: 14px; padding: 5px 12px; font-size: 10.5px; font-weight: 700; background: var(--fy-white); }
+.fy-tab.active { background: var(--fy-pink); color: #fff; }
+
+/* ---------- Pill dropdown (custom, JS-driven) ---------- */
+.fy-select { position: relative; }
+.fy-select-display {
+  display: flex; align-items: center; justify-content: space-between; cursor: default; user-select: none;
+  border: 2.2px solid var(--fy-border); border-radius: 16px; background: var(--fy-white); padding: 7px 14px;
+  font-weight: 700; font-size: 12px;
+}
+.fy-select-list {
+  position: absolute; top: calc(100% + 5px); left: 0; right: 0; z-index: 20;
+  border: 2.2px solid var(--fy-border); border-radius: 14px; background: var(--fy-white);
+  box-shadow: 3px 3px 0 rgba(26,26,26,.2); display: none; overflow: hidden;
+}
+.fy-select.open .fy-select-list { display: block; }
+.fy-select-option { padding: 7px 14px; font-size: 12px; font-weight: 700; }
+.fy-select-option:hover, .fy-select-option.hot { background: var(--fy-mint); }
+.fy-select-caption { font-size: 10.5px; font-weight: 700; color: var(--fy-text2); margin-top: 10px; }
+
+/* ---------- Buttons ---------- */
+.fy-btnrow { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.fy-btn {
+  border: 2.2px solid var(--fy-border); border-radius: 16px; padding: 7px 16px;
+  font-family: inherit; font-weight: 700; font-size: 12px; background: var(--fy-white); color: var(--fy-text1);
+}
+.fy-btn.primary { background: var(--fy-yellow); }
+.fy-btn.secondary { background: var(--fy-mint); }
+.fy-btn.icon { width: 30px; height: 30px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+/* ---------- Fields / inputs ---------- */
+.fy-field { margin-bottom: 12px; }
+.fy-field label { display: block; font-size: 10.5px; font-weight: 700; color: var(--fy-text2); text-transform: uppercase; margin-bottom: 4px; letter-spacing: .3px; }
+.fy-input {
+  width: 100%; border: 2.2px solid var(--fy-border); border-radius: 14px; background: var(--fy-white);
+  padding: 7px 12px; font-family: inherit; font-size: 12px; color: var(--fy-text1);
+}
+.fy-input:focus { outline: 2px dotted var(--fy-border); outline-offset: 1px; }
+
+.fy-inline-row { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.fy-check-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; }
+.fy-chk, .fy-radio {
+  width: 15px; height: 15px; border: 2px solid var(--fy-border); border-radius: 4px; background: var(--fy-white);
+  display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0;
+}
+.fy-chk.on { background: var(--fy-mint); }
+.fy-radio { border-radius: 50%; }
+.fy-radio.on::after { content: ""; width: 7px; height: 7px; background: var(--fy-border); border-radius: 50%; }
+.fy-toggle { width: 34px; height: 19px; border: 2px solid var(--fy-border); border-radius: 11px; background: var(--fy-white); position: relative; flex-shrink: 0; }
+.fy-toggle.on { background: var(--fy-mint); }
+.fy-toggle i { position: absolute; top: 1px; left: 1.5px; width: 13px; height: 13px; border-radius: 50%; background: var(--fy-border); transition: left .15s; }
+.fy-toggle.on i { left: 18px; }
+
+/* ---------- Data table + badges ---------- */
+.fy-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.fy-table th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--fy-text2); padding: 0 6px 8px; border-bottom: 2.2px solid var(--fy-border); }
+.fy-table td { padding: 7px 6px; border-bottom: 1.4px solid rgba(26,26,26,.14); }
+.fy-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 12px; border: 1.8px solid var(--fy-border); }
+.fy-badge.ok { background: var(--fy-mint); }
+.fy-badge.warn { background: var(--fy-yellow); }
+.fy-badge.err { background: var(--fy-pink); color: #fff; }
+.fy-pagination { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 11px; font-weight: 700; margin-top: 12px; }
+.fy-page-btn { width: 24px; height: 22px; border: 2px solid var(--fy-border); border-radius: 8px; background: var(--fy-white); display: flex; align-items: center; justify-content: center; font-size: 10.5px; }
+.fy-menurow { display: flex; gap: 14px; font-size: 10.5px; font-weight: 700; margin-bottom: 10px; color: var(--fy-text2); }
+
+/* ---------- Data-bar meter table ---------- */
+.fy-bar-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.fy-bar-table td { padding: 7px 6px; }
+.fy-bar-table td.name { width: 32%; font-weight: 700; }
+.fy-bar-table td.pct { width: 16%; text-align: right; font-weight: 700; }
+.fy-meter { width: 100%; height: 12px; border: 2px solid var(--fy-border); border-radius: 8px; background: var(--fy-white); overflow: hidden; }
+.fy-meter-fill { height: 100%; }
+
+/* ---------- Standalone progress bar ---------- */
+.fy-progress-label { display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-bottom: 7px; }
+.fy-progress-standalone-track { height: 16px; border: 2.2px solid var(--fy-border); border-radius: 10px; background: var(--fy-white); overflow: hidden; padding: 2px; }
+.fy-progress-standalone-fill { height: 100%; border-radius: 7px; background: repeating-linear-gradient(45deg, var(--fy-pink) 0 8px, var(--fy-yellow) 8px 16px); }
+
+/* ---------- Charts ---------- */
+.fy-chart-caption { font-size: 10.5px; font-weight: 700; color: var(--fy-text2); margin: 12px 0 6px; text-transform: uppercase; letter-spacing: .3px; }
+.fy-chart-caption:first-child { margin-top: 0; }
+.fy-donut-wrap { display: flex; align-items: center; gap: 14px; }
+.fy-donut-label { font-size: 20px; font-weight: 700; }
+.fy-donut-sub { font-size: 10px; font-weight: 700; color: var(--fy-text2); }
+.fy-line-svg { width: 100%; height: auto; display: block; }
+
+/* ---------- Profile card ---------- */
+.fy-profile-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.fy-profile-avatar {
+  width: 46px; height: 46px; border-radius: 50%; border: 2.2px solid var(--fy-border); background: var(--fy-pink);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.fy-profile-name { font-size: 14px; font-weight: 700; }
+.fy-profile-sub { font-size: 10.5px; color: var(--fy-text2); font-weight: 700; margin-top: 2px; }
+.fy-profile-stats { display: flex; gap: 10px; }
+.fy-profile-stat { flex: 1; text-align: center; border: 2px solid var(--fy-border); border-radius: 12px; padding: 8px 4px; background: var(--fy-white); }
+.fy-profile-stat .v { font-size: 15px; font-weight: 700; }
+.fy-profile-stat .l { font-size: 8.5px; font-weight: 700; text-transform: uppercase; color: var(--fy-text2); margin-top: 2px; letter-spacing: .3px; }
+
+/* ---------- "Window" panel with title-bar controls (distinct from plain fy-card headers) ---------- */
+.fy-window {
+  background: var(--fy-white); border: 2.4px solid var(--fy-border); border-radius: 12px;
+  overflow: hidden; box-shadow: 4px 4px 0 rgba(26,26,26,.18);
+}
+.fy-window-titlebar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 7px 10px; border-bottom: 2.4px solid var(--fy-border);
+  background: linear-gradient(90deg, var(--fy-pink) 0%, var(--fy-lav) 50%, var(--fy-yellow) 100%);
+}
+.fy-window-title-text { font-size: 12.5px; font-weight: 700; color: #1a1a1a; text-shadow: 0 1px 0 rgba(255,255,255,.4); }
+.fy-window-controls { display: flex; gap: 6px; flex-shrink: 0; }
+.fy-wctrl { width: 16px; height: 16px; border: 1.6px solid var(--fy-border); font-size: 9px; font-weight: 800; display: flex; align-items: center; justify-content: center; line-height: 1; color: #1a1a1a; }
+.fy-wctrl.min { border-radius: 50%; background: var(--fy-yellow); }
+.fy-wctrl.max { border-radius: 5px; background: var(--fy-mint); }
+.fy-wctrl.close { border-radius: 50%; background: var(--fy-pink); color: #fff; }
+.fy-window-menubar { display: flex; gap: 14px; padding: 6px 14px; font-size: 10px; font-weight: 700; color: var(--fy-text2); border-bottom: 1.4px solid rgba(26,26,26,.14); }
+.fy-window-body { padding: 14px 16px 16px; }
+.fy-sticker-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.fy-sticker {
+  width: 42px; height: 42px; border-radius: 12px; border: 2.2px solid var(--fy-border);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.fy-window-note { font-size: 11.5px; line-height: 1.5; color: var(--fy-text1); margin-bottom: 12px; }
+
+/* ---------- Bonus: mood swatches card ---------- */
+.fy-swatch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.fy-swatch { border-radius: 12px; border: 2.2px solid var(--fy-border); height: 46px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
+.fy-swatch span { font-size: 9px; font-weight: 700; background: rgba(255,255,255,.75); border-radius: 6px; padding: 1px 6px; }
+
+/* ---------- Owner row (Control Panel window) ---------- */
+.fy-owner-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.fy-owner-avatar {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--fy-border); background: var(--fy-pink);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.fy-owner-name { font-size: 12.5px; font-weight: 700; }
+.fy-owner-sub { font-size: 10px; font-weight: 700; color: var(--fy-text2); margin-top: 1px; }
+
+/* ---------- Segmented ON/OFF control (Control Panel window) ---------- */
+.fy-segmented { display: inline-flex; border: 2px solid var(--fy-border); border-radius: 12px; overflow: hidden; margin-left: 6px; vertical-align: middle; }
+.fy-seg-opt { padding: 3px 10px; font-size: 10px; font-weight: 700; background: var(--fy-white); }
+.fy-seg-opt.active { background: var(--fy-mint); }
+
+/* ---------- Calendar (Schedule window) ---------- */
+.fy-cal-header { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; font-weight: 700; margin-bottom: 12px; }
+.fy-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.fy-cal-day { font-size: 11px; font-weight: 700; padding: 6px 0; border-radius: 8px; }
+.fy-cal-day.dow { font-size: 9.5px; text-transform: uppercase; color: var(--fy-text2); padding: 2px 0 8px; }
+.fy-cal-day.today { background: var(--fy-pink); color: #fff; border: 1.8px solid var(--fy-border); }
+.fy-cal-day.blank { visibility: hidden; }
+
+/* ---------- Joke bubble + alert row (Jokes from Dr. Schedule window) ---------- */
+.fy-joke-bubble { background: var(--fy-mint); border: 2.2px solid var(--fy-border); border-radius: 14px; padding: 10px 12px; font-size: 11.5px; margin-bottom: 12px; line-height: 1.5; }
+.fy-alert-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 12px; }
+.fy-alert-icon { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--fy-border); background: var(--fy-yellow); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.fy-alert-text { font-size: 11.5px; line-height: 1.4; color: var(--fy-text1); }
+
+/* ---------- Tracking rows (Tracking window) ---------- */
+.fy-track-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1.4px solid rgba(26,26,26,.14); }
+.fy-track-icon {
+  width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--fy-border); background: var(--fy-mint);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;
+}
+.fy-track-label { font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: var(--fy-text2); letter-spacing: .3px; }
+.fy-track-value { font-size: 12px; font-weight: 700; margin-top: 1px; }
+
+
+/* ---- App-specific (CI/IC test on Fancy theme) ---- */
+html, body { margin: 0; min-height: 100%; }
+body { background: var(--fy-bg); font-family: var(--fy-font); color: var(--fy-text1); }
+.fy-shell { max-width: 720px; margin: 0 auto; }
+.fy-app-title { font-size: 18px; font-weight: 700; }
+.fy-app-sub { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.85); }
+.fy-topbar .fy-brand-block { display: flex; flex-direction: column; gap: 2px; }
+.fy-disclaimer {
+  background: var(--fy-yellow); border: 2.2px solid var(--fy-border); border-radius: 16px;
+  padding: 12px 14px; margin-bottom: 18px; font-size: 12px; font-weight: 700; line-height: 1.45;
+  box-shadow: 3px 3px 0 rgba(26,26,26,.15);
+}
+.fy-disclaimer strong { font-weight: 700; }
+.fy-main { display: flex; flex-direction: column; gap: 18px; }
+.hidden { display: none !important; }
+button.fy-btn, button.fy-tab, button.fy-opt, button.fy-page-btn {
+  cursor: pointer; font-family: inherit;
+}
+button.fy-btn:disabled, button.fy-tab:disabled { opacity: .45; cursor: not-allowed; }
+.fy-btn.primary:hover:not(:disabled) { filter: brightness(.97); }
+.fy-btn.block { width: 100%; text-align: center; justify-content: center; display: flex; }
+.fy-btnrow.stretch .fy-btn.grow { flex: 1; text-align: center; justify-content: center; display: flex; }
+.fy-tabs.mode { margin-bottom: 14px; }
+.fy-tab { cursor: pointer; }
+.fy-bank-meta { font-size: 11px; font-weight: 700; color: var(--fy-text2); margin: 10px 0 0; line-height: 1.4; }
+.fy-list { margin: 10px 0 0 18px; font-size: 12.5px; font-weight: 700; color: var(--fy-text1); }
+.fy-list li { margin-bottom: 6px; }
+.fy-last { margin-top: 12px; font-size: 11.5px; font-weight: 700; color: var(--fy-text2); }
+.fy-q-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.fy-q-hint { font-size: 11.5px; font-weight: 700; color: var(--fy-text2); margin-bottom: 12px; }
+.fy-stimulus {
+  background: #fff7fb; border: 2.2px solid var(--fy-border); border-radius: 14px;
+  padding: 14px; margin-bottom: 14px; text-align: center; overflow-x: auto;
+}
+.fy-stimulus .series { font-size: 1.15rem; font-weight: 700; letter-spacing: .02em; }
+.grid-pat { display: inline-grid; gap: 6px; vertical-align: middle; }
+.grid-pat.g3 { grid-template-columns: repeat(3, 36px); }
+.grid-pat.g2 { grid-template-columns: repeat(2, 36px); }
+.cell {
+  width: 36px; height: 36px; border-radius: 10px; border: 2px solid var(--fy-border);
+  display: flex; align-items: center; justify-content: center; font-size: 1.05rem;
+  background: var(--fy-white);
+}
+.cell.on { background: var(--fy-pink); color: #fff; }
+.cell.qmark { background: var(--fy-yellow); font-weight: 700; }
+.pat-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+.pat-arrow { font-weight: 700; color: var(--fy-text2); }
+.svg-stim { max-width: 100%; height: auto; }
+.fy-options { display: grid; gap: 8px; }
+.fy-opt {
+  appearance: none; width: 100%; text-align: left;
+  border: 2.2px solid var(--fy-border); border-radius: 14px; background: var(--fy-white);
+  padding: 10px 12px; font-family: inherit; font-size: 12.5px; font-weight: 700;
+  color: var(--fy-text1); cursor: pointer; display: flex; align-items: flex-start; gap: 10px;
+  box-shadow: 2px 2px 0 rgba(26,26,26,.12);
+}
+.fy-opt:hover { background: #fff7fb; }
+.fy-opt.selected { background: var(--fy-mint); }
+.fy-opt .key {
+  flex: 0 0 auto; width: 26px; height: 26px; border-radius: 8px;
+  border: 2px solid var(--fy-border); background: var(--fy-yellow);
+  display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
+}
+.fy-opt.selected .key { background: var(--fy-pink); color: #fff; }
+.fy-opt .body { flex: 1; line-height: 1.35; }
+.fy-likert { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.fy-likert .fy-opt {
+  flex-direction: column; align-items: center; text-align: center;
+  padding: 8px 4px; font-size: 10px; gap: 4px;
+}
+.fy-nav { display: flex; gap: 10px; margin-top: 16px; align-items: center; }
+.fy-score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.fy-score-card {
+  border: 2.2px solid var(--fy-border); border-radius: 14px; padding: 14px; text-align: center;
+  background: var(--fy-white); box-shadow: 3px 3px 0 rgba(26,26,26,.12);
+}
+.fy-score-card .label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--fy-text2); letter-spacing: .3px; }
+.fy-score-card .num { font-size: 32px; font-weight: 700; margin: 4px 0; }
+.fy-score-card .band { font-size: 12px; font-weight: 700; }
+.fy-score-card.ci { background: #fff0f6; }
+.fy-score-card.ic { background: #f3fff0; }
+.fy-breakdown { font-size: 12px; font-weight: 700; color: var(--fy-text2); }
+.fy-breakdown details {
+  border: 2.2px solid var(--fy-border); border-radius: 12px; padding: 10px 12px;
+  background: var(--fy-white); margin-top: 8px;
+}
+.fy-breakdown summary { cursor: pointer; color: var(--fy-text1); }
+.fy-saved { font-size: 11.5px; font-weight: 700; color: #2a6b2a; margin-top: 10px; }
+.fy-footer { text-align: center; font-size: 11px; font-weight: 700; color: var(--fy-text2); margin-top: 8px; }
+/* ---- Mobile-first readability overrides ---- */
+.fy-btn {
+  min-height: 48px;
+  padding: 12px 18px;
+  font-size: 15px;
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fy-btn.icon { min-width: 48px; min-height: 48px; width: 48px; height: 48px; }
+.fy-tab {
+  min-height: 44px;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fy-opt {
+  min-height: 52px;
+  padding: 14px 14px;
+  font-size: 15px;
+  border-radius: 16px;
+}
+.fy-opt .key {
+  width: 32px; height: 32px; font-size: 13px; border-radius: 10px;
+}
+.fy-q-title { font-size: 18px; line-height: 1.3; }
+.fy-q-hint { font-size: 14px; margin-bottom: 14px; }
+.fy-stimulus { padding: 16px; border-radius: 16px; }
+.fy-stimulus .series { font-size: 1.28rem; line-height: 1.35; }
+.fy-card-body { padding: 16px 16px 18px; }
+.fy-card-title { font-size: 14px; padding: 10px 14px; }
+.fy-disclaimer { font-size: 14px; padding: 14px 16px; line-height: 1.5; }
+.fy-list { font-size: 15px; line-height: 1.45; }
+.fy-bank-meta, .fy-last, .fy-footer { font-size: 13px; }
+.fy-progress-label { font-size: 13px; margin-bottom: 8px; }
+.fy-progress-standalone-track { height: 20px; border-radius: 12px; padding: 3px; }
+.fy-progress-standalone-fill { border-radius: 8px; }
+.fy-score-card .num { font-size: 36px; }
+.fy-score-card .band { font-size: 14px; }
+.fy-breakdown { font-size: 14px; }
+.fy-nav { gap: 12px; margin-top: 18px; }
+.fy-btnrow { gap: 12px; }
+.fy-options { gap: 10px; }
+.fy-shell { padding: 16px 14px 36px; }
+.fy-topbar { padding: 12px 16px; border-radius: 20px; }
+.fy-app-title { font-size: 18px; }
+.fy-app-sub { font-size: 12px; }
+.fy-main { gap: 16px; }
+.cell { width: 40px; height: 40px; font-size: 1.15rem; }
+.grid-pat.g2 { grid-template-columns: repeat(2, 40px); }
+.grid-pat.g3 { grid-template-columns: repeat(3, 40px); }
+
+@media (max-width: 520px) {
+  .fy-shell { padding: 12px 10px 32px; }
+  .fy-topbar { flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+  .fy-brand, .fy-app-title { font-size: 17px; }
+  .fy-card { border-radius: 16px; }
+  .fy-card-body { padding: 16px 14px 20px; }
+  .fy-q-title { font-size: 19px; }
+  .fy-q-hint { font-size: 14.5px; }
+  .fy-stimulus .series { font-size: 1.22rem; }
+  .fy-btn {
+    min-height: 52px;
+    font-size: 16px;
+    padding: 14px 18px;
+    width: 100%;
+  }
+  .fy-btnrow { flex-direction: column; align-items: stretch; }
+  .fy-btnrow.stretch { flex-direction: column; }
+  .fy-nav { flex-direction: column-reverse; width: 100%; }
+  .fy-nav .fy-btn { width: 100%; }
+  .fy-tabs.mode {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .fy-tabs.mode .fy-tab { width: 100%; min-height: 48px; font-size: 15px; }
+  #mode-tabs.fy-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  #mode-tabs .fy-tab { width: 100%; min-height: 48px; }
+  .fy-opt {
+    min-height: 56px;
+    font-size: 16px;
+    padding: 14px 14px;
+  }
+  .fy-likert { grid-template-columns: 1fr; }
+  .fy-likert .fy-opt {
+    flex-direction: row; text-align: left; justify-content: flex-start;
+    padding: 14px 14px; font-size: 15px; min-height: 52px;
+  }
+  .fy-score-grid { grid-template-columns: 1fr; gap: 12px; }
+  .fy-score-card .num { font-size: 40px; }
+  .fy-disclaimer { font-size: 14.5px; }
+  .fy-list { font-size: 15.5px; margin-left: 16px; }
+  .fy-avatar { width: 40px; height: 40px; }
+}
+
+@media (max-width: 360px) {
+  .fy-q-title { font-size: 17px; }
+  .fy-stimulus .series { font-size: 1.1rem; }
+  .cell { width: 34px; height: 34px; }
+  .grid-pat.g2 { grid-template-columns: repeat(2, 34px); }
+  .grid-pat.g3 { grid-template-columns: repeat(3, 34px); }
+}
+
+</style>
+</head>
+<body>
+<div class="fy-shell">
+
+  <div class="fy-topbar">
+    <div class="fy-brand-block">
+      <div class="fy-brand fy-app-title">✦ Prueba CI / IC</div>
+      <div class="fy-app-sub">Fancy Theme · orientativa v2</div>
+    </div>
+    <div class="fy-top-right">
+      <div class="fy-avatar" title="Demo">
+        <svg width="18" height="18" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#1a1a1a" stroke-width="1.6"/><circle cx="7" cy="8.5" r="1.1" fill="#1a1a1a"/><circle cx="13" cy="8.5" r="1.1" fill="#1a1a1a"/><path d="M6.5 12.5c1 1.4 2.2 2 3.5 2s2.5-.6 3.5-2" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="fy-disclaimer" id="disclaimer">
+    <strong>Aviso:</strong> Esta es una prueba <em>orientativa</em> de demostración. No es un diagnóstico clínico ni sustituye evaluaciones psicométricas estandarizadas (WAIS, Raven, MSCEIT, etc.). Los puntajes son aproximados y solo para exploración personal.
+  </div>
+
+  
+  <div class="fy-main">
+
+    <!-- WELCOME -->
+    <div class="fy-card" id="screen-welcome">
+      <div class="fy-card-title pink"><span>Medición orientativa</span><span class="fy-dots"><span></span><span></span><span></span></span></div>
+      <div class="fy-card-body">
+        <p style="font-size:12.5px;font-weight:700;line-height:1.45;margin:0 0 8px;">
+          Cada sesión elige al azar ítems distintos del banco (sin repetir hasta agotar). Responde con calma.
+        </p>
+        <ul class="fy-list">
+          <li><strong>CI</strong> — 10 ítems de un banco amplio de lógica, series y patrones.</li>
+          <li><strong>IC</strong> — 10 escenarios / Likert de inteligencia emocional.</li>
+        </ul>
+        <p class="fy-bank-meta" id="bank-meta"></p>
+        <div class="fy-tabs mode" style="margin-top:14px;">
+          <button type="button" class="fy-tab" id="btn-start-ci">Empezar CI</button>
+          <button type="button" class="fy-tab" id="btn-start-ic">Empezar IC</button>
+          <button type="button" class="fy-tab active" id="btn-start-both">Ambas (recomendado)</button>
+        </div>
+        <div class="fy-btnrow" style="margin-top:8px;">
+          <button type="button" class="fy-btn secondary" id="btn-reset-bank">Reiniciar banco</button>
+        </div>
+        <div id="last-result" class="fy-last hidden"></div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="fy-card hidden" id="screen-quiz">
+      <div class="fy-card-title yellow" id="quiz-titlebar"><span id="quiz-title">Sesión</span><span class="fy-dots"><span></span><span></span><span></span></span></div>
+      <div class="fy-card-body">
+        <div class="fy-tabs mode" id="mode-tabs">
+          <button type="button" class="fy-tab active" id="tab-ci">CI</button>
+          <button type="button" class="fy-tab" id="tab-ic">IC</button>
+        </div>
+        <div class="fy-progress-label"><span id="prog-label">Pregunta 1 / 10</span><span id="prog-mode">CI</span></div>
+        <div class="fy-progress-standalone-track"><div class="fy-progress-standalone-fill" id="prog-bar" style="width:0%"></div></div>
+        <div id="q-area" style="margin-top:14px;"></div>
+        <div class="fy-nav fy-btnrow stretch">
+          <button type="button" class="fy-btn" id="btn-prev">Atrás</button>
+          <button type="button" class="fy-btn primary grow" id="btn-next">Siguiente</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="fy-card hidden" id="screen-results">
+      <div class="fy-card-title mint"><span>Resultados orientativos</span><span class="fy-dots"><span></span><span></span><span></span></span></div>
+      <div class="fy-card-body">
+        <p style="font-size:12px;font-weight:700;color:var(--fy-text2);margin:0;">Recuerda: no es un diagnóstico. Úsalo como referencia informal.</p>
+        <div class="fy-score-grid" id="score-grid"></div>
+        <div class="fy-breakdown" id="breakdown"></div>
+        <div class="fy-btnrow" style="margin-top:14px;">
+          <button type="button" class="fy-btn primary" id="btn-save">Guardar en este dispositivo</button>
+          <button type="button" class="fy-btn secondary" id="btn-download">Descargar JSON</button>
+          <button type="button" class="fy-btn" id="btn-restart">Repetir</button>
+        </div>
+        <p class="fy-saved hidden" id="saved-note">Guardado en localStorage.</p>
+      </div>
+    </div>
+
+    <div class="fy-footer">Prueba local · sin servidor · datos solo en tu navegador</div>
+  </div>
+</div>
+
+<script>
+const CI_ITEMS = [{"id":"ci_s1","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">2 · 6 · 12 · 20 · 30 · ?</div>","options":[{"k":"A","t":"40","correct":false},{"k":"B","t":"42","correct":true},{"k":"C","t":"36","correct":false},{"k":"D","t":"44","correct":false}],"explain":"Diferencias +4,+6,+8,+10,+12 → 42."},{"id":"ci_s2","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">3 · 9 · 27 · 81 · ?</div>","options":[{"k":"A","t":"162","correct":false},{"k":"B","t":"243","correct":true},{"k":"C","t":"218","correct":false},{"k":"D","t":"324","correct":false}],"explain":"×3: 81×3=243."},{"id":"ci_s3","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">5 · 10 · 20 · 40 · ?</div>","options":[{"k":"A","t":"60","correct":false},{"k":"B","t":"80","correct":true},{"k":"C","t":"70","correct":false},{"k":"D","t":"100","correct":false}],"explain":"×2 cada vez → 80."},{"id":"ci_s4","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">1 · 1 · 2 · 3 · 5 · 8 · ?</div>","options":[{"k":"A","t":"11","correct":false},{"k":"B","t":"13","correct":true},{"k":"C","t":"12","correct":false},{"k":"D","t":"10","correct":false}],"explain":"Fibonacci: 5+8=13."},{"id":"ci_s5","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">7 · 14 · 28 · 56 · ?</div>","options":[{"k":"A","t":"84","correct":false},{"k":"B","t":"112","correct":true},{"k":"C","t":"98","correct":false},{"k":"D","t":"100","correct":false}],"explain":"×2 → 112."},{"id":"ci_s6","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">4 · 9 · 16 · 25 · ?</div>","options":[{"k":"A","t":"30","correct":false},{"k":"B","t":"36","correct":true},{"k":"C","t":"49","correct":false},{"k":"D","t":"32","correct":false}],"explain":"Cuadrados: 2²,3²,4²,5²,6²=36."},{"id":"ci_s7","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">100 · 95 · 85 · 70 · ?</div>","options":[{"k":"A","t":"60","correct":false},{"k":"B","t":"50","correct":true},{"k":"C","t":"55","correct":false},{"k":"D","t":"45","correct":false}],"explain":"−5,−10,−15,−20 → 50."},{"id":"ci_s8","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">2 · 3 · 5 · 8 · 12 · ?</div>","options":[{"k":"A","t":"16","correct":false},{"k":"B","t":"17","correct":true},{"k":"C","t":"18","correct":false},{"k":"D","t":"15","correct":false}],"explain":"+1,+2,+3,+4,+5 → 17."},{"id":"ci_s9","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">1 · 4 · 9 · 16 · 25 · ?</div>","options":[{"k":"A","t":"30","correct":false},{"k":"B","t":"36","correct":true},{"k":"C","t":"49","correct":false},{"k":"D","t":"35","correct":false}],"explain":"Cuadrados 1²…6²=36."},{"id":"ci_s10","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">81 · 27 · 9 · 3 · ?</div>","options":[{"k":"A","t":"1","correct":true},{"k":"B","t":"0","correct":false},{"k":"C","t":"2","correct":false},{"k":"D","t":"9","correct":false}],"explain":"÷3 → 1."},{"id":"ci_s11","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">11 · 22 · 44 · 88 · ?</div>","options":[{"k":"A","t":"166","correct":false},{"k":"B","t":"176","correct":true},{"k":"C","t":"198","correct":false},{"k":"D","t":"160","correct":false}],"explain":"×2 → 176."},{"id":"ci_s12","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">6 · 11 · 21 · 41 · ?</div>","options":[{"k":"A","t":"81","correct":true},{"k":"B","t":"61","correct":false},{"k":"C","t":"71","correct":false},{"k":"D","t":"82","correct":false}],"explain":"×2−1: 41×2−1=81."},{"id":"ci_s13","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">0 · 3 · 8 · 15 · 24 · ?</div>","options":[{"k":"A","t":"33","correct":false},{"k":"B","t":"35","correct":true},{"k":"C","t":"36","correct":false},{"k":"D","t":"30","correct":false}],"explain":"+3,+5,+7,+9,+11 → 35."},{"id":"ci_s14","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">64 · 32 · 16 · 8 · ?</div>","options":[{"k":"A","t":"2","correct":false},{"k":"B","t":"4","correct":true},{"k":"C","t":"6","correct":false},{"k":"D","t":"1","correct":false}],"explain":"÷2 → 4."},{"id":"ci_s15","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">1 · 8 · 27 · 64 · ?</div>","options":[{"k":"A","t":"100","correct":false},{"k":"B","t":"125","correct":true},{"k":"C","t":"121","correct":false},{"k":"D","t":"81","correct":false}],"explain":"Cubos: 5³=125."},{"id":"ci_s16","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">9 · 16 · 25 · 36 · ?</div>","options":[{"k":"A","t":"45","correct":false},{"k":"B","t":"49","correct":true},{"k":"C","t":"48","correct":false},{"k":"D","t":"40","correct":false}],"explain":"Cuadrados 3²…7²=49."},{"id":"ci_s17","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">2 · 5 · 11 · 23 · ?</div>","options":[{"k":"A","t":"45","correct":false},{"k":"B","t":"47","correct":true},{"k":"C","t":"46","correct":false},{"k":"D","t":"44","correct":false}],"explain":"×2+1 → 47."},{"id":"ci_s18","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">13 · 17 · 19 · 23 · ?</div>","options":[{"k":"A","t":"25","correct":false},{"k":"B","t":"29","correct":true},{"k":"C","t":"27","correct":false},{"k":"D","t":"31","correct":false}],"explain":"Primos: siguiente 29."},{"id":"ci_s19","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">50 · 45 · 40 · 35 · ?</div>","options":[{"k":"A","t":"25","correct":false},{"k":"B","t":"30","correct":true},{"k":"C","t":"20","correct":false},{"k":"D","t":"32","correct":false}],"explain":"−5 → 30."},{"id":"ci_s20","type":"mc","title":"Serie numérica","hint":"¿Qué número continúa la serie?","stimulusHtml":"<div class=\"series\">1 · 2 · 6 · 24 · ?</div>","options":[{"k":"A","t":"48","correct":false},{"k":"B","t":"120","correct":true},{"k":"C","t":"96","correct":false},{"k":"D","t":"60","correct":false}],"explain":"×2,×3,×4,×5 → 120."},{"id":"ci_a1","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">LIBRO es a LECTURA como PARTITURA es a…</div>","options":[{"k":"A","t":"Piano","correct":false},{"k":"B","t":"Compositor","correct":false},{"k":"C","t":"Música / interpretación","correct":true},{"k":"D","t":"Concierto","correct":false}],"explain":"Se realiza al interpretarse."},{"id":"ci_a2","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">MÉDICO es a HOSPITAL como MAESTRO es a…</div>","options":[{"k":"A","t":"Libro","correct":false},{"k":"B","t":"Escuela","correct":true},{"k":"C","t":"Alumno","correct":false},{"k":"D","t":"Pizarra","correct":false}],"explain":"Lugar de trabajo."},{"id":"ci_a3","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">SEMILLA es a ÁRBOL como HUEVO es a…</div>","options":[{"k":"A","t":"Nido","correct":false},{"k":"B","t":"Ave","correct":true},{"k":"C","t":"Cáscara","correct":false},{"k":"D","t":"Pluma","correct":false}],"explain":"Origen → ser vivo."},{"id":"ci_a4","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">AGUA es a SED como COMIDA es a…</div>","options":[{"k":"A","t":"Cocina","correct":false},{"k":"B","t":"Hambre","correct":true},{"k":"C","t":"Plato","correct":false},{"k":"D","t":"Gusto","correct":false}],"explain":"Necesidad que se calma."},{"id":"ci_a5","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">OJO es a VER como OÍDO es a…</div>","options":[{"k":"A","t":"Sonido","correct":false},{"k":"B","t":"Oír","correct":true},{"k":"C","t":"Oreja","correct":false},{"k":"D","t":"Música","correct":false}],"explain":"Función del órgano."},{"id":"ci_a6","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">NOCHE es a OSCURIDAD como DÍA es a…</div>","options":[{"k":"A","t":"Sol","correct":false},{"k":"B","t":"Claridad","correct":true},{"k":"C","t":"Mañana","correct":false},{"k":"D","t":"Calor","correct":false}],"explain":"Condición asociada."},{"id":"ci_a7","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">AUTOR es a NOVELA como COMPOSITOR es a…</div>","options":[{"k":"A","t":"Orquesta","correct":false},{"k":"B","t":"Sinfonía","correct":true},{"k":"C","t":"Piano","correct":false},{"k":"D","t":"Concierto","correct":false}],"explain":"Obra creada."},{"id":"ci_a8","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">PINTURA es a LIENZO como ESCULTURA es a…</div>","options":[{"k":"A","t":"Mármol / material","correct":true},{"k":"B","t":"Museo","correct":false},{"k":"C","t":"Cincel","correct":false},{"k":"D","t":"Artista","correct":false}],"explain":"Soporte/material."},{"id":"ci_a9","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">LLAVE es a CERRADURA como CONTRASEÑA es a…</div>","options":[{"k":"A","t":"Teclado","correct":false},{"k":"B","t":"Cuenta / acceso","correct":true},{"k":"C","t":"Internet","correct":false},{"k":"D","t":"Usuario","correct":false}],"explain":"Abre el acceso."},{"id":"ci_a10","type":"mc","title":"Analogía","hint":"Elige la relación equivalente.","stimulusHtml":"<div class=\"series\">RÍO es a CAUCE como TREN es a…</div>","options":[{"k":"A","t":"Estación","correct":false},{"k":"B","t":"Vía","correct":true},{"k":"C","t":"Vagón","correct":false},{"k":"D","t":"Maquinista","correct":false}],"explain":"Camino por donde se mueve."},{"id":"ci_l1","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Si todos los A son B y algunos B son C, ¿qué es necesariamente cierto?</div>","options":[{"k":"A","t":"Todos los A son C","correct":false},{"k":"B","t":"Algunos A son C","correct":false},{"k":"C","t":"No se puede concluir que todos los A sean C","correct":true},{"k":"D","t":"Ningún A es C","correct":false}],"explain":"No se deduce que A⊆C."},{"id":"ci_l2","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Ningún músico es panadero. Algunos artistas son músicos. Todos los panaderos son trabajadores. ¿Qué es necesariamente cierto?</div>","options":[{"k":"A","t":"Algunos artistas son panaderos","correct":false},{"k":"B","t":"Ningún panadero es músico","correct":true},{"k":"C","t":"Todos los trabajadores son panaderos","correct":false},{"k":"D","t":"Algunos músicos no son artistas","correct":false}],"explain":"Conversión de (1)."},{"id":"ci_l3","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Si llueve, la calle está mojada. La calle está mojada. ¿Qué se sigue?</div>","options":[{"k":"A","t":"Definitivamente llovió","correct":false},{"k":"B","t":"Puede haber otras causas; no se concluye que llovió","correct":true},{"k":"C","t":"No llovió","correct":false},{"k":"D","t":"Siempre llueve","correct":false}],"explain":"Afirmar el consecuente es falacia."},{"id":"ci_l4","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Todos los cuadrados son rectángulos. Algunos rectángulos son azules. ¿Qué se sigue?</div>","options":[{"k":"A","t":"Todos los cuadrados son azules","correct":false},{"k":"B","t":"Algunos cuadrados son azules","correct":false},{"k":"C","t":"Nada forzoso sobre el color de los cuadrados","correct":true},{"k":"D","t":"Ningún cuadrado es azul","correct":false}],"explain":"Los azules pueden no ser cuadrados."},{"id":"ci_l5","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Ana es mayor que Bea. Bea es mayor que Carla. ¿Quién es la menor?</div>","options":[{"k":"A","t":"Ana","correct":false},{"k":"B","t":"Bea","correct":false},{"k":"C","t":"Carla","correct":true},{"k":"D","t":"No se sabe","correct":false}],"explain":"Ana > Bea > Carla."},{"id":"ci_l6","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">En una fila: P está a la izquierda de Q. R está a la derecha de Q. ¿Quién está en el medio?</div>","options":[{"k":"A","t":"P","correct":false},{"k":"B","t":"Q","correct":true},{"k":"C","t":"R","correct":false},{"k":"D","t":"No se sabe","correct":false}],"explain":"P — Q — R."},{"id":"ci_l7","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Si no estudio, no apruebo. Aprobé. ¿Qué se sigue?</div>","options":[{"k":"A","t":"No estudié","correct":false},{"k":"B","t":"Estudié","correct":true},{"k":"C","t":"Puede que no haya estudiado","correct":false},{"k":"D","t":"Nada","correct":false}],"explain":"Modus tollens sobre la contrapositiva."},{"id":"ci_l8","type":"mc","title":"Lógica","hint":"Elige la conclusión válida.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Exactamente uno de estos es verdadero: (1) A es culpable (2) B es culpable. Si A es inocente, ¿qué?</div>","options":[{"k":"A","t":"B es inocente","correct":false},{"k":"B","t":"B es culpable","correct":true},{"k":"C","t":"Ambos culpables","correct":false},{"k":"D","t":"No se sabe","correct":false}],"explain":"Exactamente uno → B culpable."},{"id":"ci_e1","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">Cuadrado · Triángulo · Círculo · Rectángulo · Cubo</div>","options":[{"k":"A","t":"Cuadrado","correct":false},{"k":"B","t":"Triángulo","correct":false},{"k":"C","t":"Círculo","correct":false},{"k":"D","t":"Cubo","correct":true}],"explain":"Cubo es 3D."},{"id":"ci_e2","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">Perro · Gato · Caballo · Rosa · Vaca</div>","options":[{"k":"A","t":"Perro","correct":false},{"k":"B","t":"Gato","correct":false},{"k":"C","t":"Rosa","correct":true},{"k":"D","t":"Vaca","correct":false}],"explain":"Rosa es planta."},{"id":"ci_e3","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">Lunes · Martes · Enero · Jueves · Viernes</div>","options":[{"k":"A","t":"Lunes","correct":false},{"k":"B","t":"Martes","correct":false},{"k":"C","t":"Enero","correct":true},{"k":"D","t":"Jueves","correct":false}],"explain":"Enero es mes."},{"id":"ci_e4","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">Flauta · Clarinete · Trompeta · Violín · Saxofón</div>","options":[{"k":"A","t":"Flauta","correct":false},{"k":"B","t":"Clarinete","correct":false},{"k":"C","t":"Violín","correct":true},{"k":"D","t":"Saxofón","correct":false}],"explain":"Violín es de cuerda; el resto viento."},{"id":"ci_e5","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">Manzana · Pera · Zanahoria · Uva · Plátano</div>","options":[{"k":"A","t":"Manzana","correct":false},{"k":"B","t":"Pera","correct":false},{"k":"C","t":"Zanahoria","correct":true},{"k":"D","t":"Uva","correct":false}],"explain":"Zanahoria es verdura/raíz."},{"id":"ci_e6","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">Metro · Kilómetro · Litro · Centímetro · Milla</div>","options":[{"k":"A","t":"Metro","correct":false},{"k":"B","t":"Kilómetro","correct":false},{"k":"C","t":"Litro","correct":true},{"k":"D","t":"Milla","correct":false}],"explain":"Litro es volumen."},{"id":"ci_e7","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">España · Francia · París · Italia · Alemania</div>","options":[{"k":"A","t":"España","correct":false},{"k":"B","t":"Francia","correct":false},{"k":"C","t":"París","correct":true},{"k":"D","t":"Italia","correct":false}],"explain":"París es ciudad."},{"id":"ci_e8","type":"mc","title":"Exclusión","hint":"¿Cuál no pertenece al grupo?","stimulusHtml":"<div class=\"series\">Sumar · Restar · Multiplicar · Dividir · Triángulo</div>","options":[{"k":"A","t":"Sumar","correct":false},{"k":"B","t":"Restar","correct":false},{"k":"C","t":"Multiplicar","correct":false},{"k":"D","t":"Triángulo","correct":true}],"explain":"Triángulo no es operación."},{"id":"ci_m1","type":"mc","title":"Serie mixta","hint":"Letras y/o números siguen una regla.","stimulusHtml":"<div class=\"series\">A2 · C4 · E6 · G8 · ?</div>","options":[{"k":"A","t":"H10","correct":false},{"k":"B","t":"I10","correct":true},{"k":"C","t":"I9","correct":false},{"k":"D","t":"J10","correct":false}],"explain":"Letras +2, números +2 → I10."},{"id":"ci_m2","type":"mc","title":"Serie mixta","hint":"Letras y/o números siguen una regla.","stimulusHtml":"<div class=\"series\">B1 · D2 · F3 · H4 · ?</div>","options":[{"k":"A","t":"I5","correct":false},{"k":"B","t":"J5","correct":true},{"k":"C","t":"J4","correct":false},{"k":"D","t":"K5","correct":false}],"explain":"Letras +2, números +1 → J5."},{"id":"ci_m3","type":"mc","title":"Serie mixta","hint":"Letras y/o números siguen una regla.","stimulusHtml":"<div class=\"series\">Z1 · Y2 · X3 · W4 · ?</div>","options":[{"k":"A","t":"V5","correct":true},{"k":"B","t":"U5","correct":false},{"k":"C","t":"V4","correct":false},{"k":"D","t":"T5","correct":false}],"explain":"Letras hacia atrás, números +1 → V5."},{"id":"ci_m4","type":"mc","title":"Serie mixta","hint":"Letras y/o números siguen una regla.","stimulusHtml":"<div class=\"series\">A · C · F · J · ?</div>","options":[{"k":"A","t":"M","correct":false},{"k":"B","t":"N","correct":false},{"k":"C","t":"O","correct":true},{"k":"D","t":"K","correct":false}],"explain":"+2,+3,+4,+5 → O."},{"id":"ci_m5","type":"mc","title":"Serie mixta","hint":"Letras y/o números siguen una regla.","stimulusHtml":"<div class=\"series\">AZ · BY · CX · ?</div>","options":[{"k":"A","t":"DW","correct":true},{"k":"B","t":"DV","correct":false},{"k":"C","t":"EW","correct":false},{"k":"D","t":"DU","correct":false}],"explain":"Primera +1, segunda −1 → DW."},{"id":"ci_p1","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">8 / 2 = 24 / ?</div>","options":[{"k":"A","t":"3","correct":false},{"k":"B","t":"6","correct":true},{"k":"C","t":"8","correct":false},{"k":"D","t":"12","correct":false}],"explain":"Razón 4 → 24/6."},{"id":"ci_p2","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">3 es a 12 como 5 es a…</div>","options":[{"k":"A","t":"15","correct":false},{"k":"B","t":"20","correct":true},{"k":"C","t":"10","correct":false},{"k":"D","t":"25","correct":false}],"explain":"×4 → 20."},{"id":"ci_p3","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">15% de 200 = ?</div>","options":[{"k":"A","t":"20","correct":false},{"k":"B","t":"30","correct":true},{"k":"C","t":"25","correct":false},{"k":"D","t":"35","correct":false}],"explain":"0.15×200=30."},{"id":"ci_p4","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">Si 4 máquinas hacen 4 piezas en 4 min, ¿cuántas piezas hacen 8 máquinas en 8 min?</div>","options":[{"k":"A","t":"8","correct":false},{"k":"B","t":"16","correct":true},{"k":"C","t":"4","correct":false},{"k":"D","t":"32","correct":false}],"explain":"Ritmo 1 pieza/máquina/4min → 8×2=16."},{"id":"ci_p5","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">Un reloj marca 3:00. ¿Qué ángulo forman las manecillas?</div>","options":[{"k":"A","t":"90°","correct":true},{"k":"B","t":"60°","correct":false},{"k":"C","t":"120°","correct":false},{"k":"D","t":"45°","correct":false}],"explain":"3×30°=90°."},{"id":"ci_p6","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">Si hoy es lunes, ¿qué día será dentro de 100 días?</div>","options":[{"k":"A","t":"Martes","correct":false},{"k":"B","t":"Miércoles","correct":true},{"k":"C","t":"Jueves","correct":false},{"k":"D","t":"Viernes","correct":false}],"explain":"100≡2 (mod 7) → lunes+2=miércoles."},{"id":"ci_p7","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">Promedio de 10, 20 y 30 = ?</div>","options":[{"k":"A","t":"15","correct":false},{"k":"B","t":"20","correct":true},{"k":"C","t":"25","correct":false},{"k":"D","t":"30","correct":false}],"explain":"(10+20+30)/3=20."},{"id":"ci_p8","type":"mc","title":"Cálculo / proporción","hint":"Resuelve.","stimulusHtml":"<div class=\"series\">2³ × 3² = ?</div>","options":[{"k":"A","t":"36","correct":false},{"k":"B","t":"72","correct":true},{"k":"C","t":"96","correct":false},{"k":"D","t":"48","correct":false}],"explain":"8×9=72."},{"id":"ci_v1","type":"mc","title":"Patrón visual","hint":"¿Qué figura completa la secuencia?","stimulusHtml":"<div class=\"pat-row\"><div class=\"grid-pat g2\"><div class=\"cell on\">●</div><div class=\"cell\"></div><div class=\"cell\"></div><div class=\"cell on\">●</div></div><span class=\"pat-arrow\">→</span><div class=\"grid-pat g2\"><div class=\"cell\"></div><div class=\"cell on\">●</div><div class=\"cell on\">●</div><div class=\"cell\"></div></div><span class=\"pat-arrow\">→</span><div class=\"grid-pat g2\"><div class=\"cell on\">●</div><div class=\"cell\"></div><div class=\"cell\"></div><div class=\"cell on\">●</div></div><span class=\"pat-arrow\">→</span><div class=\"grid-pat g2\"><div class=\"cell qmark\">?</div><div class=\"cell qmark\">?</div><div class=\"cell qmark\">?</div><div class=\"cell qmark\">?</div></div></div>","options":[{"k":"A","t":"● vacío / vacío ●","correct":false},{"k":"B","t":"vacío ● / ● vacío","correct":true},{"k":"C","t":"● ● / vacío vacío","correct":false},{"k":"D","t":"vacío vacío / ● ●","correct":false}],"explain":"Alterna A,B,A,B…"},{"id":"ci_v2","type":"mc","title":"Patrón visual","hint":"Cada paso añade un punto en sentido horario.","stimulusHtml":"<div class=\"pat-row\"><div class=\"grid-pat g2\"><div class=\"cell on\">●</div><div class=\"cell\"></div><div class=\"cell\"></div><div class=\"cell\"></div></div><span class=\"pat-arrow\">→</span><div class=\"grid-pat g2\"><div class=\"cell on\">●</div><div class=\"cell on\">●</div><div class=\"cell\"></div><div class=\"cell\"></div></div><span class=\"pat-arrow\">→</span><div class=\"grid-pat g2\"><div class=\"cell on\">●</div><div class=\"cell on\">●</div><div class=\"cell on\">●</div><div class=\"cell\"></div></div><span class=\"pat-arrow\">→</span><div class=\"grid-pat g2\"><div class=\"cell qmark\">?</div><div class=\"cell qmark\">?</div><div class=\"cell qmark\">?</div><div class=\"cell qmark\">?</div></div></div>","options":[{"k":"A","t":"● ● / ● ● (lleno)","correct":true},{"k":"B","t":"● vacío / vacío vacío","correct":false},{"k":"C","t":"vacío vacío / vacío ●","correct":false},{"k":"D","t":"● ● / vacío vacío","correct":false}],"explain":"Cuarto paso llena las 4 celdas."},{"id":"ci_v3","type":"mc","title":"Matriz 3×3","hint":"●=5, ▲=3, ■=7. Cada fila suma 15. ¿Qué falta?","stimulusHtml":"<div class=\"pat-row\"><div class=\"grid-pat g3\">\n<div class=\"cell\">●</div><div class=\"cell\">▲</div><div class=\"cell\">■</div>\n<div class=\"cell\">▲</div><div class=\"cell\">■</div><div class=\"cell\">●</div>\n<div class=\"cell\">■</div><div class=\"cell\">●</div><div class=\"cell qmark\">?</div>\n</div></div><p style=\"margin-top:10px;font-size:.8rem;color:var(--muted)\">Fila 1: 5+3+7=15</p>","options":[{"k":"A","t":"● (5)","correct":false},{"k":"B","t":"▲ (3)","correct":true},{"k":"C","t":"■ (7)","correct":false},{"k":"D","t":"Ninguno","correct":false}],"explain":"7+5+?=15 → ▲."},{"id":"ci_v4","type":"mc","title":"Rotación espacial","hint":"Una flecha ↑ rota 90° en sentido horario cada paso. ¿Cuál es la 4.ª?","stimulusHtml":"<svg class=\"svg-stim\" width=\"280\" height=\"56\" viewBox=\"0 0 280 56\" aria-hidden=\"true\">\n<text x=\"20\" y=\"36\" fill=\"#e8eef6\" font-size=\"28\">↑</text>\n<text x=\"70\" y=\"32\" fill=\"#8b9bb4\" font-size=\"18\">→</text>\n<text x=\"100\" y=\"36\" fill=\"#e8eef6\" font-size=\"28\">→</text>\n<text x=\"150\" y=\"32\" fill=\"#8b9bb4\" font-size=\"18\">→</text>\n<text x=\"180\" y=\"36\" fill=\"#e8eef6\" font-size=\"28\">↓</text>\n<text x=\"230\" y=\"32\" fill=\"#8b9bb4\" font-size=\"18\">→</text>\n<text x=\"255\" y=\"36\" fill=\"#e6a23c\" font-size=\"28\">?</text>\n</svg>","options":[{"k":"A","t":"←","correct":true},{"k":"B","t":"↑","correct":false},{"k":"C","t":"→","correct":false},{"k":"D","t":"↓","correct":false}],"explain":"↑ → ↓ ←"},{"id":"ci_v5","type":"mc","title":"Rotación espacial","hint":"El símbolo ◢ rota 90° antihorario. ¿Siguiente?","stimulusHtml":"<div class=\"series\">◢ · ◣ · ◤ · ?</div>","options":[{"k":"A","t":"◥","correct":true},{"k":"B","t":"◢","correct":false},{"k":"C","t":"◣","correct":false},{"k":"D","t":"△","correct":false}],"explain":"Cuarto cuadrante del ciclo."},{"id":"ci_v6","type":"mc","title":"Patrón de filas","hint":"En cada fila, la tercera celda es la 'suma' (OR) de las dos primeras (●+vacío=●).","stimulusHtml":"<div class=\"pat-row\"><div class=\"grid-pat g3\">\n<div class=\"cell on\">●</div><div class=\"cell\"></div><div class=\"cell on\">●</div>\n<div class=\"cell\"></div><div class=\"cell on\">●</div><div class=\"cell on\">●</div>\n<div class=\"cell on\">●</div><div class=\"cell on\">●</div><div class=\"cell qmark\">?</div>\n</div></div>","options":[{"k":"A","t":"vacío","correct":false},{"k":"B","t":"●","correct":true},{"k":"C","t":"▲","correct":false},{"k":"D","t":"■","correct":false}],"explain":"● OR ● = ●."},{"id":"ci_x1","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">Si CASA = 4 letras y MESA = 4, ¿cuántas letras tiene VENTANA?</div>","options":[{"k":"A","t":"6","correct":false},{"k":"B","t":"7","correct":true},{"k":"C","t":"8","correct":false},{"k":"D","t":"5","correct":false}],"explain":"VENTANA tiene 7."},{"id":"ci_x2","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">Invierte mentalmente: 172 → ?</div>","options":[{"k":"A","t":"271","correct":true},{"k":"B","t":"217","correct":false},{"k":"C","t":"712","correct":false},{"k":"D","t":"127","correct":false}],"explain":"172 invertido 271."},{"id":"ci_x3","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">¿Cuántos triángulos hay en un triángulo grande dividido por unir el centro con los 3 vértices?</div>","options":[{"k":"A","t":"3","correct":false},{"k":"B","t":"4","correct":true},{"k":"C","t":"6","correct":false},{"k":"D","t":"5","correct":false}],"explain":"3 pequeños + 1 grande = 4."},{"id":"ci_x4","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">Completa: 2, 10, 12, 60, 62, ?</div>","options":[{"k":"A","t":"310","correct":true},{"k":"B","t":"300","correct":false},{"k":"C","t":"124","correct":false},{"k":"D","t":"372","correct":false}],"explain":"×5,+2,×5,+2… 62×5=310."},{"id":"ci_x5","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">Si ♠=2, ♥=4, ♦=6, entonces ♠+♥+♦ = ?</div>","options":[{"k":"A","t":"10","correct":false},{"k":"B","t":"12","correct":true},{"k":"C","t":"14","correct":false},{"k":"D","t":"8","correct":false}],"explain":"2+4+6=12."},{"id":"ci_x6","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">El opuesto de NORTE-ESTE en la rosa de 8 rumbos es…</div>","options":[{"k":"A","t":"Sur-oeste","correct":true},{"k":"B","t":"Sur-este","correct":false},{"k":"C","t":"Norte-oeste","correct":false},{"k":"D","t":"Oeste","correct":false}],"explain":"Opuesto de NE es SO."},{"id":"ci_x7","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">Ordena de menor a mayor tiempo: siglo, década, año, milenio. ¿Qué va 2.º?</div>","options":[{"k":"A","t":"Año","correct":false},{"k":"B","t":"Década","correct":true},{"k":"C","t":"Siglo","correct":false},{"k":"D","t":"Milenio","correct":false}],"explain":"año < década < siglo < milenio."},{"id":"ci_x8","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">Si 1=5, 2=25, 3=125, 4=?</div>","options":[{"k":"A","t":"500","correct":false},{"k":"B","t":"625","correct":true},{"k":"C","t":"125","correct":false},{"k":"D","t":"250","correct":false}],"explain":"5^n → 5⁴=625."},{"id":"ci_x9","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">En un código A=1, B=2… ¿cuánto suma 'CAB'?</div>","options":[{"k":"A","t":"6","correct":true},{"k":"B","t":"5","correct":false},{"k":"C","t":"7","correct":false},{"k":"D","t":"4","correct":false}],"explain":"3+1+2=6."},{"id":"ci_x10","type":"mc","title":"Razonamiento","hint":"Elige la mejor respuesta.","stimulusHtml":"<div class=\"series\">¿Qué número falta? 1 3 5 · 2 4 ? · 3 5 7</div>","options":[{"k":"A","t":"6","correct":true},{"k":"B","t":"7","correct":false},{"k":"C","t":"8","correct":false},{"k":"D","t":"5","correct":false}],"explain":"Pares: 2,4,6."}];
+const IC_ITEMS = [{"id":"ic_b1","type":"best","title":"Autoconciencia","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">En una reunión te interrumpen y sientes irritación. ¿Qué haces primero?</div>","options":[{"k":"A","t":"Responder de inmediato con sarcasmo","score":0},{"k":"B","t":"Notar la irritación, respirar y luego pedir la palabra con calma","score":2},{"k":"C","t":"Callar todo el resto de la reunión","score":1},{"k":"D","t":"Salir de la sala sin decir nada","score":0}]},{"id":"ic_b2","type":"best","title":"Empatía","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Un compañero dice: “Hoy no rindo; tengo un problema personal.” ¿Qué respondes?</div>","options":[{"k":"A","t":"“A todos nos pasa, ánimo” y cambias de tema","score":1},{"k":"B","t":"“¿Quieres contar algo o prefieres espacio? Estoy disponible.”","score":2},{"k":"C","t":"“Hay que dejar lo personal fuera del trabajo.”","score":0},{"k":"D","t":"Ignoras el comentario","score":0}]},{"id":"ic_b3","type":"best","title":"Habilidades sociales","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Dos personas del equipo discuten en público. Tú puedes mediar. ¿Qué es más adecuado?</div>","options":[{"k":"A","t":"Tomar partido por quien crees que tiene razón","score":0},{"k":"B","t":"Pedir pausa, escuchar a ambos por separado y buscar un punto común","score":2},{"k":"C","t":"Bromear para cortar y no hablar del tema","score":1},{"k":"D","t":"Reportar de inmediato sin hablar con ellos","score":0}]},{"id":"ic_b4","type":"best","title":"Manejo de feedback","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Tu jefe señala un error tuyo delante del equipo. ¿Qué es más inteligente emocionalmente?</div>","options":[{"k":"A","t":"Defenderte y señalar fallos ajenos","score":0},{"k":"B","t":"Agradecer el dato, aclarar con calma y pedir hablar en privado después","score":2},{"k":"C","t":"Aceptar en silencio y guardarte resentimiento","score":1},{"k":"D","t":"Abandonar la reunión","score":0}]},{"id":"ic_b5","type":"best","title":"Autogestión","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Te piden entregar algo “para ayer”. Sabes que la calidad caerá. ¿Qué haces?</div>","options":[{"k":"A","t":"Prometer que sí y entregar a medias sin avisar","score":0},{"k":"B","t":"Negociar alcance o plazo y explicar el trade-off calidad/tiempo","score":2},{"k":"C","t":"Quejarte con todos menos con quien pide el trabajo","score":0},{"k":"D","t":"Trabajar sin dormir y culpar al estrés después","score":1}]},{"id":"ic_b6","type":"best","title":"Empatía","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Un amigo está triste y solo quiere compañía en silencio. Tú…</div>","options":[{"k":"A","t":"Le das un discurso motivacional largo","score":0},{"k":"B","t":"Te quedas cerca, ofreces presencia y preguntas si quiere hablar","score":2},{"k":"C","t":"Cambias de tema a algo “más alegre” a la fuerza","score":1},{"k":"D","t":"Te vas porque “no sabes qué decir”","score":0}]},{"id":"ic_b7","type":"best","title":"Autorregulación","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Recibes un mensaje grosero. Tu primer impulso es responder igual. ¿Qué es mejor?</div>","options":[{"k":"A","t":"Responder al instante con el mismo tono","score":0},{"k":"B","t":"Esperar, releer y responder solo a los hechos (o no responder)","score":2},{"k":"C","t":"Publicar el mensaje en redes para “exponer”","score":0},{"k":"D","t":"Bloquear y hablar mal de la persona con terceros","score":1}]},{"id":"ic_b8","type":"best","title":"Conciencia social","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">En una cena notas que alguien queda excluido de la charla. ¿Qué haces?</div>","options":[{"k":"A","t":"Nada; “así es la dinámica”","score":0},{"k":"B","t":"Incluirlo con una pregunta abierta o un comentario que lo invite","score":2},{"k":"C","t":"Hacer un chiste sobre lo callado que está","score":0},{"k":"D","t":"Hablar solo con quien ya conoces","score":1}]},{"id":"ic_b9","type":"best","title":"Motivación","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Llevas semanas en un proyecto sin resultados visibles. ¿Qué enfoque es más sano?</div>","options":[{"k":"A","t":"Abandonar sin revisar qué se puede ajustar","score":0},{"k":"B","t":"Revisar metas pequeñas, pedir feedback y ajustar el plan","score":2},{"k":"C","t":"Compararte todo el día con otros en redes","score":0},{"k":"D","t":"Seguir igual sin cambiar nada y culparte","score":1}]},{"id":"ic_b10","type":"best","title":"Liderazgo emocional","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Alguien de tu equipo comete un error costoso. ¿Cómo lo abordas?</div>","options":[{"k":"A","t":"Humillarlo en público para que “aprenda”","score":0},{"k":"B","t":"Hablar en privado, separar persona/hecho y acordar prevención","score":2},{"k":"C","t":"Ignorarlo y esperas que no se repita","score":1},{"k":"D","t":"Asignarle la culpa total ante todos","score":0}]},{"id":"ic_b11","type":"best","title":"Límites","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Te piden favores laborales fuera de horario de forma reiterada. ¿Qué es más saludable?</div>","options":[{"k":"A","t":"Decir siempre que sí por miedo a quedar mal","score":0},{"k":"B","t":"Explicar tu límite con respeto y proponer alternativas en horario laboral","score":2},{"k":"C","t":"Ignorar los mensajes sin avisar","score":1},{"k":"D","t":"Estallar de golpe después de meses","score":0}]},{"id":"ic_b12","type":"best","title":"Conflictos de pareja/amistad","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Tu pareja/amigo dice que se sintió ignorado. Tú no lo recuerdas así. ¿Qué haces?</div>","options":[{"k":"A","t":"Insistir en que está equivocado/a","score":0},{"k":"B","t":"Validar el sentimiento y explorar juntos qué pasó","score":2},{"k":"C","t":"Cambiar de tema","score":1},{"k":"D","t":"Sacar una lista de sus fallos","score":0}]},{"id":"ic_b13","type":"best","title":"Culpa vs responsabilidad","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Cometiste un error que afectó a alguien. ¿Qué respuesta muestra IC?</div>","options":[{"k":"A","t":"Negarlo aunque sea evidente","score":0},{"k":"B","t":"Reconocer el impacto, disculparte y ofrecer reparación concreta","score":2},{"k":"C","t":"Disculparte en bucle sin cambiar nada","score":1},{"k":"D","t":"Culpar a las circunstancias y punto","score":0}]},{"id":"ic_b14","type":"best","title":"Envidia","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Un colega recibe un reconocimiento que tú querías. ¿Qué es más maduro?</div>","options":[{"k":"A","t":"Minimizar su logro ante otros","score":0},{"k":"B","t":"Reconocer la envidia internamente y felicitarlo con sinceridad","score":2},{"k":"C","t":"Dejar de hablarle","score":0},{"k":"D","t":"Felicitarlo con sarcasmo","score":1}]},{"id":"ic_b15","type":"best","title":"Estrés grupal","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">El equipo está tenso por una fecha. Tú notas pánico contagioso. ¿Qué aportas?</div>","options":[{"k":"A","t":"Aumentar la alarma (“vamos a fracasar”)","score":0},{"k":"B","t":"Nombrar la tensión, priorizar tareas y proponer un plan corto","score":2},{"k":"C","t":"Desaparecer hasta que pase","score":0},{"k":"D","t":"Bromear sin ayudar a organizar","score":1}]},{"id":"ic_b16","type":"best","title":"Diversidad de opiniones","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Alguien expresa una opinión política distinta a la tuya en un contexto social. ¿Qué es más hábil?</div>","options":[{"k":"A","t":"Atacar su carácter","score":0},{"k":"B","t":"Escuchar, preguntar y, si hace falta, disentir sin insultar","score":2},{"k":"C","t":"Abandonar la reunión enfadado","score":1},{"k":"D","t":"Ridiculizarlo ante el grupo","score":0}]},{"id":"ic_b17","type":"best","title":"Pedir ayuda","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Estás sobrecargado y la calidad baja. ¿Qué demuestras IC?</div>","options":[{"k":"A","t":"Fingir que todo está bien hasta el colapso","score":0},{"k":"B","t":"Pedir apoyo concreto y priorizar con quien corresponde","score":2},{"k":"C","t":"Quejarte sin pedir nada específico","score":1},{"k":"D","t":"Culpar al equipo de tu sobrecarga","score":0}]},{"id":"ic_b18","type":"best","title":"Celebrar a otros","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Un amigo logra algo importante para él. Tú…</div>","options":[{"k":"A","t":"Cambias al instante a tus logros","score":1},{"k":"B","t":"Celebras su logro con atención genuina","score":2},{"k":"C","t":"Señalas lo que le faltó","score":0},{"k":"D","t":"Dices “qué suerte” restando su esfuerzo","score":0}]},{"id":"ic_b19","type":"best","title":"Miedo a hablar","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Debes dar una presentación y sientes ansiedad. ¿Qué ayuda más?</div>","options":[{"k":"A","t":"Cancelar sin avisar","score":0},{"k":"B","t":"Nombrar la ansiedad, preparar un ensayo corto y pedir feedback seguro","score":2},{"k":"C","t":"Tomar la ansiedad como prueba de que “no sirves”","score":0},{"k":"D","t":"Improvisar sin preparar nada","score":1}]},{"id":"ic_b20","type":"best","title":"Rumores","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Te cuentan un rumor negativo sobre un compañero. ¿Qué haces?</div>","options":[{"k":"A","t":"Lo reenvías “por si acaso”","score":0},{"k":"B","t":"No lo propagas y, si afecta al trabajo, verificas por canales adecuados","score":2},{"k":"C","t":"Lo confrontas en público con el rumor","score":1},{"k":"D","t":"Lo usas para ganar ventaja","score":0}]},{"id":"ic_b21","type":"best","title":"Cambio de planes","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Alguien cancela un plan a última hora. Te molesta. ¿Qué es más maduro?</div>","options":[{"k":"A","t":"Castigarlo con silencio indefinido","score":0},{"k":"B","t":"Expresar la molestia con “yo” y renegociar otro momento","score":2},{"k":"C","t":"Decir que “no pasa nada” y resentirte en secreto","score":1},{"k":"D","t":"Insultarlo por mensaje","score":0}]},{"id":"ic_b22","type":"best","title":"Trabajo remoto","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Un compañero no responde en horas y asumes mala fe. ¿Qué es mejor?</div>","options":[{"k":"A","t":"Acusarlo en el chat grupal","score":0},{"k":"B","t":"Preguntar con curiosidad y acordar expectativas de respuesta","score":2},{"k":"C","t":"Dejar de incluirlo en todo","score":1},{"k":"D","t":"Quejarte con todos menos con él","score":0}]},{"id":"ic_b23","type":"best","title":"Emoción intensa","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Estás muy enfadado y debes decidir algo importante. ¿Qué haces?</div>","options":[{"k":"A","t":"Decidir en el pico de enfado","score":0},{"k":"B","t":"Posponer la decisión irreversible hasta calmarte un poco","score":2},{"k":"C","t":"Dejar que otro decida sin hablar","score":1},{"k":"D","t":"Romper el trato por impulso","score":0}]},{"id":"ic_b24","type":"best","title":"Apoyo vs rescate","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Alguien pide consejo pero solo quiere que le digan que tiene razón. Tú…</div>","options":[{"k":"A","t":"Le das la razón automática aunque veas riesgos","score":1},{"k":"B","t":"Validas la emoción y ofreces una mirada honesta con permiso","score":2},{"k":"C","t":"Le sermoneas sin escuchar","score":0},{"k":"D","t":"Te desentiendes por completo","score":0}]},{"id":"ic_b25","type":"best","title":"Cultura de equipo","hint":"Elige la respuesta más emocionalmente inteligente.","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">En el equipo se normalizan bromas hirientes. ¿Qué opción muestra IC?</div>","options":[{"k":"A","t":"Reírte aunque te incomode siempre","score":1},{"k":"B","t":"Poner un límite claro y proponer humor sin humillar","score":2},{"k":"C","t":"Humillar a quien bromea “para que vea”","score":0},{"k":"D","t":"Denunciar sin haber intentado una conversación cuando era posible","score":0}]},{"id":"ic_k1","type":"likert","title":"Autorregulación","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Cuando estoy estresado/a, puedo posponer reacciones impulsivas hasta pensar con más claridad.</div>","likertPositive":true},{"id":"ic_k2","type":"likert","title":"Motivación","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Persisto en metas importantes aunque el progreso sea lento o haya contratiempos.</div>","likertPositive":true},{"id":"ic_k3","type":"likert","title":"Empatía cognitiva","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Antes de opinar, intento entender el punto de vista de la otra persona aunque no lo comparta.</div>","likertPositive":true},{"id":"ic_k4","type":"likert","title":"Conciencia social","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Noto cambios de ánimo en un grupo (silencios, tensiones) aunque nadie los nombre.</div>","likertPositive":true},{"id":"ic_k5","type":"likert","title":"Expresión emocional","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Puedo nombrar lo que siento (enojo, miedo, tristeza, ilusión) sin exagerar ni minimizar.</div>","likertPositive":true},{"id":"ic_k6","type":"likert","title":"Autoconciencia","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Reconozco con facilidad qué situaciones me activan (celos, rechazo, urgencia de controlar).</div>","likertPositive":true},{"id":"ic_k7","type":"likert","title":"Escucha","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Cuando alguien habla de un problema, escucho sin interrumpir para “arreglarlo” de inmediato.</div>","likertPositive":true},{"id":"ic_k8","type":"likert","title":"Flexibilidad","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Si un plan falla, puedo adaptarme sin quedarme atrapado/a en la frustración.</div>","likertPositive":true},{"id":"ic_k9","type":"likert","title":"Optimismo realista","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Ante un revés, busco qué sí controlable puedo hacer a continuación.</div>","likertPositive":true},{"id":"ic_k10","type":"likert","title":"Límites","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Me cuesta poco decir “no” con respeto cuando algo supera mi capacidad.</div>","likertPositive":true},{"id":"ic_k11","type":"likert","title":"Reparación","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Si hago daño, me resulta natural disculparme de forma específica.</div>","likertPositive":true},{"id":"ic_k12","type":"likert","title":"Gratitud","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Noto y agradezco con frecuencia lo que otros aportan (aunque sea “pequeño”).</div>","likertPositive":true},{"id":"ic_k13","type":"likert","title":"Paciencia","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Tolero la incertidumbre sin buscar pelear o controlar a toda costa.</div>","likertPositive":true},{"id":"ic_k14","type":"likert","title":"Autocompasión","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Cuando fallo, me hablo con la misma dignidad que le daría a un amigo.</div>","likertPositive":true},{"id":"ic_k15","type":"likert","title":"Curiosidad social","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Me interesa conocer cómo se sienten las personas cercanas, no solo “cómo les va en el trabajo”.</div>","likertPositive":true},{"id":"ic_k16","type":"likert","title":"Manejo de conflicto","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Prefiero conversaciones difíciles a dejar que el resentimiento crezca en silencio.</div>","likertPositive":true},{"id":"ic_k17","type":"likert","title":"Presencia","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">En conversaciones importantes, puedo estar atento/a sin mirar el teléfono a cada rato.</div>","likertPositive":true},{"id":"ic_k18","type":"likert","title":"Humildad","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Acepto feedback útil aunque duela un poco al principio.</div>","likertPositive":true},{"id":"ic_k19","type":"likert","title":"Colaboración","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">En equipo, priorizo el objetivo común por encima de “ganar” la discusión.</div>","likertPositive":true},{"id":"ic_k20","type":"likert","title":"Calma relativa","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Puedo calmarme lo suficiente para no gritar cuando estoy muy molesto/a.</div>","likertPositive":true},{"id":"ic_k21","type":"likert","title":"Lectura emocional","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Distingo si alguien está triste, enfadado o ansioso aunque diga “estoy bien”.</div>","likertPositive":true},{"id":"ic_k22","type":"likert","title":"Responsabilidad afectiva","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Cuido el impacto de mis palabras cuando estoy cansado/a o de mal humor.</div>","likertPositive":true},{"id":"ic_k23","type":"likert","title":"Perdón práctico","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Puedo soltar rencores menores para no envenenar la relación (sin negar límites).</div>","likertPositive":true},{"id":"ic_k24","type":"likert","title":"Celebración","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Me alegro de verdad por los logros de personas cercanas.</div>","likertPositive":true},{"id":"ic_k25","type":"likert","title":"Pedir espacio","hint":"Indica cuánto te identifica (1 = nada, 5 = mucho).","stimulusHtml":"<div style=\"text-align:left;font-size:.92rem\">Sé pedir tiempo para calmarme sin desaparecer de forma punitiva.</div>","likertPositive":true}];
+
+(function () {
+  "use strict";
+
+  const SESSION_SIZE = 10;
+  const USED_KEY = "ci_ic_used_ids_v2";
+  const LAST_KEY = "ci_ic_last_result";
+
+  const LIKERT_LABELS = [
+    { k: "1", t: "Nada" },
+    { k: "2", t: "Poco" },
+    { k: "3", t: "Algo" },
+    { k: "4", t: "Bastante" },
+    { k: "5", t: "Mucho" }
+  ];
+
+  const state = {
+    flow: "both",
+    phase: "ci",
+    index: 0,
+    sessionCI: [],
+    sessionIC: [],
+    answers: { ci: {}, ic: {} },
+    startedAt: null,
+    finishedAt: null
+  };
+
+  const $ = (sel) => document.querySelector(sel);
+  const screens = {
+    welcome: $("#screen-welcome"),
+    quiz: $("#screen-quiz"),
+    results: $("#screen-results")
+  };
+
+  function showScreen(name) {
+    Object.keys(screens).forEach((k) => screens[k].classList.toggle("hidden", k !== name));
+  }
+
+  function loadUsed() {
+    try {
+      const raw = localStorage.getItem(USED_KEY);
+      if (!raw) return { ci: [], ic: [] };
+      const data = JSON.parse(raw);
+      return {
+        ci: Array.isArray(data.ci) ? data.ci : [],
+        ic: Array.isArray(data.ic) ? data.ic : []
+      };
+    } catch (_) {
+      return { ci: [], ic: [] };
+    }
+  }
+
+  function saveUsed(used) {
+    try { localStorage.setItem(USED_KEY, JSON.stringify(used)); } catch (_) {}
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function sampleFromBank(bank, usedIds, n) {
+    const usedSet = new Set(usedIds);
+    let unused = bank.filter((it) => !usedSet.has(it.id));
+    let pool;
+    let reset = false;
+    if (unused.length >= n) {
+      pool = shuffle(unused);
+    } else if (unused.length > 0) {
+      const usedItems = shuffle(bank.filter((it) => usedSet.has(it.id)));
+      pool = shuffle(unused).concat(usedItems);
+      reset = true;
+    } else {
+      pool = shuffle(bank);
+      reset = true;
+    }
+    const picked = pool.slice(0, Math.min(n, pool.length));
+    return { picked, resetAll: reset && unused.length < n };
+  }
+
+  function markUsed(kind, ids, resetAll) {
+    const used = loadUsed();
+    if (resetAll) {
+      used[kind] = ids.slice();
+    } else {
+      const set = new Set(used[kind] || []);
+      ids.forEach((id) => set.add(id));
+      used[kind] = Array.from(set);
+    }
+    saveUsed(used);
+  }
+
+  function updateBankMeta() {
+    const used = loadUsed();
+    const ciUsed = used.ci.filter((id) => CI_ITEMS.some((x) => x.id === id)).length;
+    const icUsed = used.ic.filter((id) => IC_ITEMS.some((x) => x.id === id)).length;
+    const ciLeft = Math.max(0, CI_ITEMS.length - ciUsed);
+    const icLeft = Math.max(0, IC_ITEMS.length - icUsed);
+    const meta = $("#bank-meta");
+    if (meta) {
+      meta.textContent = `Cada sesión: ${SESSION_SIZE} ítems por módulo (sin repetir hasta agotar el banco).`;
+    }
+  }
+
+  function currentItems() {
+    return state.phase === "ci" ? state.sessionCI : state.sessionIC;
+  }
+
+  function totalInFlow() {
+    if (state.flow === "ci") return state.sessionCI.length;
+    if (state.flow === "ic") return state.sessionIC.length;
+    return state.sessionCI.length + state.sessionIC.length;
+  }
+
+  function progressDone() {
+    if (state.flow === "ci" || state.flow === "ic") return state.index;
+    if (state.phase === "ci") return state.index;
+    return state.sessionCI.length + state.index;
+  }
+
+  function updateProgress() {
+    const items = currentItems();
+    const n = items.length;
+    const i = state.index + 1;
+    $("#prog-label").textContent = `Pregunta ${i} / ${n}`;
+    $("#prog-mode").textContent = state.phase === "ci" ? "Módulo CI" : "Módulo IC";
+    const tot = totalInFlow() || 1;
+    const pct = Math.round((progressDone() / tot) * 100);
+    $("#prog-bar").style.width = Math.min(100, Math.max(0, pct)) + "%";
+    $("#tab-ci").classList.toggle("active", state.phase === "ci");
+    $("#tab-ic").classList.toggle("active", state.phase === "ic");
+    const canSwitch = state.flow === "both";
+    $("#tab-ci").disabled = !canSwitch;
+    $("#tab-ic").disabled = !canSwitch;
+    $("#quiz-title").textContent = state.phase === "ci" ? "Módulo CI" : "Módulo IC";
+    const bar = $("#quiz-titlebar");
+    bar.classList.remove("pink", "yellow", "mint", "lav");
+    bar.classList.add(state.phase === "ci" ? "pink" : "mint");
+  }
+
+  function getAnswer(item) {
+    return state.answers[state.phase][item.id];
+  }
+
+  function setAnswer(item, value) {
+    state.answers[state.phase][item.id] = value;
+  }
+
+  function renderQuestion() {
+    const items = currentItems();
+    const item = items[state.index];
+    const area = $("#q-area");
+    const ans = getAnswer(item);
+
+    let optsHtml = "";
+    if (item.type === "likert") {
+      optsHtml = `<div class="fy-options fy-likert">` + LIKERT_LABELS.map((o, idx) => {
+        const val = idx + 1;
+        const sel = ans === val ? " selected" : "";
+        return `<button type="button" class="fy-opt${sel}" data-val="${val}"><span class="key">${o.k}</span><span class="body">${o.t}</span></button>`;
+      }).join("") + `</div>`;
+    } else {
+      optsHtml = `<div class="fy-options">` + item.options.map((o) => {
+        const sel = ans === o.k ? " selected" : "";
+        return `<button type="button" class="fy-opt${sel}" data-val="${o.k}"><span class="key">${o.k}</span><span class="body">${o.t}</span></button>`;
+      }).join("") + `</div>`;
+    }
+
+    area.innerHTML = `
+      <div class="fy-q-title">${item.title}</div>
+      <div class="fy-q-hint">${item.hint}</div>
+      <div class="fy-stimulus">${item.stimulusHtml}</div>
+      ${optsHtml}
+    `;
+
+    area.querySelectorAll(".fy-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        let v = btn.getAttribute("data-val");
+        if (item.type === "likert") v = Number(v);
+        setAnswer(item, v);
+        renderQuestion();
+        updateNav();
+      });
+    });
+
+    updateProgress();
+    updateNav();
+  }
+
+  function updateNav() {
+    const items = currentItems();
+    const item = items[state.index];
+    const has = getAnswer(item) !== undefined;
+    $("#btn-prev").disabled = state.index === 0 && !(state.flow === "both" && state.phase === "ic");
+    const isLast =
+      state.index === items.length - 1 &&
+      (state.flow !== "both" || state.phase === "ic");
+    $("#btn-next").textContent = isLast ? "Ver resultados" : "Siguiente";
+    $("#btn-next").disabled = !has;
+  }
+
+  function start(flow) {
+    const used = loadUsed();
+    state.flow = flow;
+    state.phase = flow === "ic" ? "ic" : "ci";
+    state.index = 0;
+    state.answers = { ci: {}, ic: {} };
+    state.startedAt = new Date().toISOString();
+    state.finishedAt = null;
+    state._resetCI = false;
+    state._resetIC = false;
+
+    if (flow === "ci" || flow === "both") {
+      const r = sampleFromBank(CI_ITEMS, used.ci, SESSION_SIZE);
+      state.sessionCI = r.picked;
+      state._resetCI = r.resetAll;
+    } else state.sessionCI = [];
+
+    if (flow === "ic" || flow === "both") {
+      const r = sampleFromBank(IC_ITEMS, used.ic, SESSION_SIZE);
+      state.sessionIC = r.picked;
+      state._resetIC = r.resetAll;
+    } else state.sessionIC = [];
+
+    showScreen("quiz");
+    renderQuestion();
+  }
+
+  function goPrev() {
+    if (state.index > 0) { state.index--; renderQuestion(); return; }
+    if (state.flow === "both" && state.phase === "ic") {
+      state.phase = "ci";
+      state.index = state.sessionCI.length - 1;
+      renderQuestion();
+    }
+  }
+
+  function goNext() {
+    const items = currentItems();
+    const item = items[state.index];
+    if (getAnswer(item) === undefined) return;
+    if (state.index < items.length - 1) { state.index++; renderQuestion(); return; }
+    if (state.flow === "both" && state.phase === "ci") {
+      state.phase = "ic"; state.index = 0; renderQuestion(); return;
+    }
+    finish();
+  }
+
+  function scoreCI() {
+    let correct = 0;
+    state.sessionCI.forEach((it) => {
+      const a = state.answers.ci[it.id];
+      const opt = (it.options || []).find((o) => o.k === a);
+      if (opt && opt.correct) correct++;
+    });
+    const raw = correct;
+    const max = state.sessionCI.length || 1;
+    const iq = Math.round(70 + (raw / max) * 60);
+    let band = "medio", bandLabel = "Rango medio (orientativo)";
+    if (iq < 85) { band = "bajo"; bandLabel = "Por debajo del promedio (orientativo)"; }
+    else if (iq < 100) { band = "medio"; bandLabel = "Promedio-bajo / medio (orientativo)"; }
+    else if (iq < 115) { band = "alto"; bandLabel = "Promedio-alto (orientativo)"; }
+    else { band = "muy-alto"; bandLabel = "Alto (orientativo)"; }
+    return { raw, max, iq, band, bandLabel, pct: Math.round((raw / max) * 100) };
+  }
+
+  function scoreIC() {
+    let points = 0, max = 0;
+    state.sessionIC.forEach((it) => {
+      const a = state.answers.ic[it.id];
+      if (it.type === "likert") {
+        max += 4;
+        if (typeof a === "number") points += Math.max(0, Math.min(4, a - 1));
+      } else {
+        max += 2;
+        const opt = (it.options || []).find((o) => o.k === a);
+        if (opt) points += opt.score;
+      }
+    });
+    const pct = max ? Math.round((points / max) * 100) : 0;
+    const eq = pct;
+    let band = "medio", bandLabel = "Desarrollo medio (orientativo)";
+    if (eq < 45) { band = "bajo"; bandLabel = "Área de oportunidad (orientativo)"; }
+    else if (eq < 65) { band = "medio"; bandLabel = "Desarrollo medio (orientativo)"; }
+    else if (eq < 80) { band = "alto"; bandLabel = "Buen desarrollo (orientativo)"; }
+    else { band = "muy-alto"; bandLabel = "Muy alto (orientativo)"; }
+    return { points, max, eq, band, bandLabel, pct };
+  }
+
+  function finish() {
+    state.finishedAt = new Date().toISOString();
+    if (state.sessionCI.length) markUsed("ci", state.sessionCI.map((x) => x.id), state._resetCI);
+    if (state.sessionIC.length) markUsed("ic", state.sessionIC.map((x) => x.id), state._resetIC);
+
+    const didCI = state.flow === "ci" || state.flow === "both";
+    const didIC = state.flow === "ic" || state.flow === "both";
+    const ci = didCI && state.sessionCI.length ? scoreCI() : null;
+    const ic = didIC && state.sessionIC.length ? scoreIC() : null;
+
+    const grid = $("#score-grid");
+    grid.innerHTML = "";
+    if (ci) {
+      grid.innerHTML += `
+        <div class="fy-score-card ci">
+          <div class="label">CI (orientativo)</div>
+          <div class="num">${ci.iq}</div>
+          <div class="band">${ci.bandLabel}</div>
+          <div style="font-size:11px;font-weight:700;color:var(--fy-text2);margin-top:6px">${ci.raw}/${ci.max} aciertos · ${ci.pct}%</div>
+        </div>`;
+    }
+    if (ic) {
+      grid.innerHTML += `
+        <div class="fy-score-card ic">
+          <div class="label">IC (orientativo)</div>
+          <div class="num">${ic.eq}</div>
+          <div class="band">${ic.bandLabel}</div>
+          <div style="font-size:11px;font-weight:700;color:var(--fy-text2);margin-top:6px">${ic.points}/${ic.max} pts · ${ic.pct}%</div>
+        </div>`;
+    }
+
+    let detail = `<details open><summary>Detalle de esta sesión</summary><ul style="margin:8px 0 0 16px">`;
+    if (ci) {
+      detail += `<li><strong>CI:</strong> escala demo ~70–130. No es WAIS/Raven.</li>`;
+      state.sessionCI.forEach((it) => {
+        const a = state.answers.ci[it.id];
+        const opt = (it.options || []).find((o) => o.k === a);
+        const ok = opt && opt.correct;
+        detail += `<li>${it.title}: ${ok ? "✓" : "✗"} (${a || "—"})</li>`;
+      });
+    }
+    if (ic) {
+      detail += `<li style="margin-top:8px"><strong>IC:</strong> escenarios + Likert. No es MSCEIT/EQ-i.</li>`;
+      detail += `<li>Ítems IC: ${state.sessionIC.map((x) => x.id).join(", ")}</li>`;
+    }
+    detail += `</ul></details>`;
+    detail += `<p style="margin-top:10px">Prueba orientativa · no diagnóstico clínico. Los ítems usados no se repetirán hasta agotar el banco.</p>`;
+    $("#breakdown").innerHTML = detail;
+
+    window.__lastReport = {
+      version: 2,
+      type: "prueba_orientativa_ci_ic",
+      theme: "fancy-y2k",
+      disclaimer: "No es diagnóstico clínico ni evaluación psicométrica estandarizada.",
+      flow: state.flow,
+      startedAt: state.startedAt,
+      finishedAt: state.finishedAt,
+      sessionItemIds: {
+        ci: state.sessionCI.map((x) => x.id),
+        ic: state.sessionIC.map((x) => x.id)
+      },
+      bankSize: { ci: CI_ITEMS.length, ic: IC_ITEMS.length },
+      ci, ic,
+      answers: state.answers
+    };
+
+    showScreen("results");
+    $("#saved-note").classList.add("hidden");
+    updateBankMeta();
+  }
+
+  function saveLocal() {
+    if (!window.__lastReport) return;
+    try {
+      localStorage.setItem(LAST_KEY, JSON.stringify(window.__lastReport));
+      $("#saved-note").classList.remove("hidden");
+      $("#saved-note").textContent = "Guardado en este dispositivo (localStorage).";
+      $("#saved-note").style.color = "#2a6b2a";
+    } catch (e) {
+      $("#saved-note").classList.remove("hidden");
+      $("#saved-note").textContent = "No se pudo guardar (almacenamiento bloqueado).";
+      $("#saved-note").style.color = "#a02040";
+    }
+  }
+
+  function downloadJSON() {
+    if (!window.__lastReport) return;
+    const blob = new Blob([JSON.stringify(window.__lastReport, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = (state.finishedAt || "").replace(/[:.]/g, "-");
+    a.href = url;
+    a.download = `resultado-ci-ic-${stamp || "demo"}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function loadLastHint() {
+    try {
+      const raw = localStorage.getItem(LAST_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      const el = $("#last-result");
+      el.classList.remove("hidden");
+      const parts = [];
+      if (data.ci) parts.push(`CI ≈ ${data.ci.iq}`);
+      if (data.ic) parts.push(`IC ≈ ${data.ic.eq}`);
+      const when = data.finishedAt ? new Date(data.finishedAt).toLocaleString("es-CR") : "";
+      el.textContent = `Último resultado guardado${when ? " · " + when : ""}: ${parts.join(" · ")}`;
+    } catch (_) {}
+  }
+
+  $("#btn-start-ci").addEventListener("click", () => start("ci"));
+  $("#btn-start-ic").addEventListener("click", () => start("ic"));
+  $("#btn-start-both").addEventListener("click", () => start("both"));
+  $("#btn-prev").addEventListener("click", goPrev);
+  $("#btn-next").addEventListener("click", goNext);
+  $("#btn-save").addEventListener("click", saveLocal);
+  $("#btn-download").addEventListener("click", downloadJSON);
+  $("#btn-restart").addEventListener("click", () => {
+    showScreen("welcome");
+    updateBankMeta();
+    loadLastHint();
+  });
+  $("#btn-reset-bank").addEventListener("click", () => {
+    saveUsed({ ci: [], ic: [] });
+    updateBankMeta();
+    alert("Banco reiniciado: las próximas sesiones pueden volver a usar cualquier ítem.");
+  });
+
+  $("#tab-ci").addEventListener("click", () => {
+    if (state.flow !== "both") return;
+    state.phase = "ci";
+    const firstEmpty = state.sessionCI.findIndex((it) => state.answers.ci[it.id] === undefined);
+    state.index = firstEmpty >= 0 ? firstEmpty : state.sessionCI.length - 1;
+    renderQuestion();
+  });
+  $("#tab-ic").addEventListener("click", () => {
+    if (state.flow !== "both") return;
+    state.phase = "ic";
+    const firstEmpty = state.sessionIC.findIndex((it) => state.answers.ic[it.id] === undefined);
+    state.index = firstEmpty >= 0 ? firstEmpty : state.sessionIC.length - 1;
+    renderQuestion();
+  });
+
+  updateBankMeta();
+  loadLastHint();
+})();
+</script>
+</body>
+</html>
